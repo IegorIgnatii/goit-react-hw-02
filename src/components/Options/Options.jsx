@@ -17,7 +17,7 @@ const Options = ({ count, updateFeedback, totalFeedback, resetCount }) => {
       {totalFeedback > 0 ? (
         <li>
           <button className={s.button} type="button" onClick={resetCount}>
-            Reset
+            reset
           </button>
         </li>
       ) : (

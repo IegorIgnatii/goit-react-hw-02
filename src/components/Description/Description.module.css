@@ -1,4 +1,11 @@
+.title {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
 .subtitle {
+  margin: 20px, 0;
   font-size: 1em;
   color: #555;
   font-weight: 500;

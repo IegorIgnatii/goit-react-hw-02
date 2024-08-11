@@ -4,8 +4,8 @@
   margin-bottom: 20px;
   display: flex;
   list-style: none;
-  justify-content: left;
-  gap: 20px;
+  justify-content: center;
+  gap: 50px;
 }
 
 .button {
