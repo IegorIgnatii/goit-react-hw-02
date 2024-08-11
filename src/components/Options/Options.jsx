@@ -1,25 +1,27 @@
-import clsx from "clsx";
 import s from "./Options.module.css";
 
-const Options = ({ reviews, handleClick, totalFeedback, handleReset }) => {
+const Options = ({ count, updateFeedback, totalFeedback, resetCount }) => {
   return (
-    <ul className={clsx(s.list)}>
-      {reviews.map((review) => (
-        <li key={review}>
+    <ul className={s.options}>
+      {Object.keys(count).map((item) => (
+        <li key={item}>
           <button
-            className={clsx(s.button)}
-            onClick={() => handleClick(review)}
+            className={s.button}
+            type="button"
+            onClick={() => updateFeedback(item)}
           >
-            {review}
+            {item}
           </button>
         </li>
       ))}
-      {totalFeedback !== 0 && (
+      {totalFeedback > 0 ? (
         <li>
-          <button className={clsx(s.button)} onClick={handleReset}>
+          <button className={s.button} type="button" onClick={resetCount}>
             Reset
           </button>
         </li>
+      ) : (
+        ""
       )}
     </ul>
   );

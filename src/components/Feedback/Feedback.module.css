@@ -1,10 +1,7 @@
-.list {
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.listItem {
-  text-transform: capitalize;
+.feedback {
+  list-style-type: none;
+  padding: 0;
+  & li {
+    margin-bottom: 10px;
+  }
 }

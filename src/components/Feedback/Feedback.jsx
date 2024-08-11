@@ -1,18 +1,15 @@
-import clsx from "clsx";
 import s from "./Feedback.module.css";
-
-const Feedback = ({ reviews, totalFeedback, positiveFeedback }) => {
+const Feedback = ({ count, totalFeedback, positivePart }) => {
   return (
-    <ul className={clsx(s.list)}>
-      {reviews.map(([key, value]) => (
-        <li className={clsx(s.listItem)} key={key}>
-          {key}: {value}
+    <ul className={s.feedback}>
+      {Object.entries(count).map(([key, value]) => (
+        <li key={key}>
+          {key} : {value}
         </li>
       ))}
-      <li className={clsx(s.listItem)}>Total: {totalFeedback}</li>
-      <li className={clsx(s.listItem)}>Positive: {positiveFeedback}%</li>
+      <li>Total: {totalFeedback}</li>
+      <li>Positive: {positivePart}%</li>
     </ul>
   );
 };
-
 export default Feedback;

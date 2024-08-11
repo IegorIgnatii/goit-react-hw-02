@@ -1,63 +1,53 @@
-import { useEffect, useState } from "react";
+import s from "./css/App.module.css";
 import Description from "./components/Description/Description";
 import Options from "./components/Options/Options";
 import Feedback from "./components/Feedback/Feedback";
 import Notification from "./components/Notification/Notification";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+
+const initialState = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
 
 function App() {
-  const REVIEWS_KEY = "reviews_key";
-  const [reviews, setReviews] = useState(() => {
-    const reviewsState = window.localStorage.getItem(REVIEWS_KEY);
-
-    if (reviewsState !== null) {
-      return JSON.parse(reviewsState);
-    }
-
-    return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
-  });
-  const totalFeedback = Object.values(reviews).reduce(
-    (acc, value) => acc + value,
-    0
-  );
-  const positiveFeedback = totalFeedback
-    ? Math.round((reviews.good / totalFeedback) * 100)
-    : 0;
+  const [count, setCount] = useLocalStorage("count", initialState);
 
   const updateFeedback = (feedbackType) => {
-    setReviews((prev) => ({ ...prev, [feedbackType]: prev[feedbackType] + 1 }));
+    setCount((prevCount) => ({
+      ...prevCount,
+      [feedbackType]: prevCount[feedbackType] + 1,
+    }));
   };
 
-  const resetReviews = () => {
-    setReviews({ good: 0, neutral: 0, bad: 0 });
-  };
+  const totalFeedback = count.good + count.neutral + count.bad;
 
-  useEffect(() => {
-    window.localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-  }, [reviews]);
+  const positivePart = Math.round((count.good / totalFeedback) * 100);
+
+  const resetCount = () => {
+    setCount(initialState);
+  };
 
   return (
-    <>
+    <div className={s.app}>
       <Description />
       <Options
-        reviews={Object.keys(reviews)}
-        handleClick={updateFeedback}
+        resetCount={resetCount}
+        count={count}
+        updateFeedback={updateFeedback}
         totalFeedback={totalFeedback}
-        handleReset={resetReviews}
       />
-      {totalFeedback === 0 ? (
-        <Notification />
-      ) : (
+      {totalFeedback > 0 ? (
         <Feedback
-          reviews={Object.entries(reviews)}
+          count={count}
           totalFeedback={totalFeedback}
-          positiveFeedback={positiveFeedback}
+          positivePart={positivePart}
         />
+      ) : (
+        <Notification />
       )}
-    </>
+    </div>
   );
 }
 
